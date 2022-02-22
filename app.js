@@ -1,6 +1,36 @@
-const http = require('http');
-const displayedContent = require('')
+const express = require('express')
+const app = express()
+const port = 3003;
+const middleware = require('./middleware');
+const cors = require('cors');
+const bodyParser = require('body-parser')
+const mongoose = require('./database')
+const session = require('express-session')
 
-const server = http.createServer(displayedContent)
+app.use(cors());
 
-server.listen(3001)
+
+const server = app.listen(port, () => console.log('server listette' + port));
+
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+
+app.use(session({
+    secret: "bbq chips",
+    resave: true,
+    saveUninitialized: false,
+}))
+const routeLogin = require('./routes/loginRoute');
+const routeRegister = require('./routes/registrationRoute');
+
+app.use('/login', routeLogin)
+app.use('/register', routeRegister)
+
+app.get('/', middleware.requireLogin, (req, res, next) => {
+
+    const payload = {
+        pageTitle:'some'
+    }
+
+    res.status(200).send(payload)
+})
