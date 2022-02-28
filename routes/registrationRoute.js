@@ -14,7 +14,6 @@ route.post('/', async (req, res,) => {
     const userName =  req.body.userName.trim()
     const password =  req.body.password
     const email =  req.body.email.trim()
-    const payload = req.body;
 
     if (firstName && userName && lastName && userName && email && password) {
         const user = await User.findOne({
@@ -36,9 +35,7 @@ route.post('/', async (req, res,) => {
             data.password = await bcrypt.hash(password, 10)
 
             User.create(data)
-                .then((user) => {
-                    req.session.user = user
-                })
+                .then((user) => {})
             data.success = true;
             res.status(200).send(data)
         } else {

@@ -30,7 +30,6 @@ route.post('/', async (req, res) => {
                 const result = await bcrypt.compare(password, user.password)
 
                 if (result === true) {
-                    req.session.user = user;
                     const success = {success: true}
                     return res.status(200).send(success)
                 }

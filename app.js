@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const port = 3003;
-const middleware = require('./middleware');
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const mongoose = require('./database')
@@ -26,10 +25,11 @@ const routeRegister = require('./routes/registrationRoute');
 app.use('/login', routeLogin)
 app.use('/register', routeRegister)
 
-app.get('/', middleware.requireLogin, (req, res, next) => {
+app.get('/', (req, res, next) => {
 
     const payload = {
-        pageTitle:'some'
+        pageTitle:'some',
+        picture: ''
     }
 
     res.status(200).send(payload)
